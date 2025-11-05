@@ -1,0 +1,39 @@
+﻿using MPower.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MPower
+{
+    class Program
+    {
+        private static void Main(string[] args)
+        {
+            string DeveloperId = ConfigurationManager.AppSettings["DeveloperId"];
+            try
+            {
+                POSSettings pOSSettings = new POSSettings();
+                pOSSettings.IntializeStoreSettings();
+                foreach (POSSetting current in pOSSettings.PosDetails)
+                {
+                    if (current.PosName.ToUpper() == "MPOWER")
+                    {
+                        if (current.StoreSettings.StoreId == 10719)
+                        {
+                            clsmPower clsmPower = new clsmPower(current.StoreSettings.StoreId, current.StoreSettings.POSSettings.BaseUrl, current.StoreSettings.POSSettings.APIKey, DeveloperId, current.StoreSettings.POSSettings.tax, current.StoreSettings.POSSettings.LocationId, current.StoreSettings.POSSettings.Code, current.StoreSettings.POSSettings.IsSalePrice);
+                            Console.WriteLine();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                new clsEmail().sendEmail(DeveloperId, "", "", "Error in ExtractPOS@" + DateTime.UtcNow + " GMT", ex.Message + "<br/>" + ex.StackTrace);
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
