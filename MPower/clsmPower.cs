@@ -624,6 +624,10 @@ namespace MPower
                                     fname.country = "";
                                     fname.uom = item.Size;
                                     prod.vintage = !string.IsNullOrEmpty(item.Vintage) ? item.Vintage : "";
+                                    if (staticqty.Contains(StoreId.ToString()))
+                                    {
+                                        prod.qty = 999;
+                                    }
                                     if (WebActive)
                                     {
                                         exProd.Add(prod);
@@ -909,7 +913,6 @@ namespace MPower
 
                                 }
                             }
-
                             else if (Discountable_Stores.Contains(StoreId.ToString()))
                             {
                                 products.storeid = StoreId;
@@ -941,7 +944,10 @@ namespace MPower
                                 {
                                     products.qty = Convert.ToInt32(item.QuantityOnHand);
                                 }
-
+                                if (staticqty.Contains(StoreId.ToString()))
+                                {
+                                    products.qty = 999;
+                                }
                                 if (!string.IsNullOrEmpty(item.upc))
                                 {
                                     products.upc = "#" + item.upc.ToString().Trim();
@@ -972,7 +978,6 @@ namespace MPower
                                     fullname.Add(fname);
                                 }
                             }
-
                             else
                             {
                                 prod.storeid = StoreId;
@@ -1107,6 +1112,10 @@ namespace MPower
                                 {
                                     //continue; 
                                 }
+                                if (staticqty.Contains(StoreId.ToString()))
+                                {
+                                    prod.qty = 999;
+                                }
                                 if (nowebactivecondition.Contains(StoreId.ToString()))// added deposit from response ticket #21307
                                 {
                                     prod.deposit = item.Deposit.ToString();
@@ -1135,15 +1144,10 @@ namespace MPower
                                 {
                                     continue;
                                 }
-
                                 if (OtherUPC.Contains(StoreId.ToString()))
                                 {
-                                    string pattern = @"\bno\s*upc\b"; // Regex pattern
-
-                                    // Create the Regex object with case-insensitive option
+                                    string pattern = @"\bno\s*upc\b";
                                     Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-
-                                    // Check if the input string matches the pattern
                                     if (regex.IsMatch(prod.upc))
                                     {
                                         prod.upc = "#" + StoreId + item.SkuNumber;
@@ -1300,7 +1304,6 @@ namespace MPower
                                         prod.start = "";
                                         prod.end = "";
                                     }
-
                                     if (cat_price.Contains(StoreId.ToString()))
                                     {
 
@@ -1327,9 +1330,7 @@ namespace MPower
                                         prod.price = item.Retail;
                                         fname.Price = item.Retail;
                                     }
-
                                 }
-
                                 string day = DateTime.Now.DayOfWeek.ToString().ToUpper();
                                 if (day == "WEDNESDAY")
                                 {
@@ -1359,7 +1360,6 @@ namespace MPower
                                         }
                                     }
                                 }
-
                                 if (day == "THURSDAY")
                                 {
                                     decimal prc = 0;
@@ -1388,7 +1388,6 @@ namespace MPower
                                         }
                                     }
                                 }
-
                                 prod.altupc1 = "";
                                 prod.altupc2 = "";
                                 prod.altupc3 = "";
@@ -1400,7 +1399,7 @@ namespace MPower
                                     exProd.Add(prod);
                                     fullname.Add(fname);
                                 }
-                                else if (WebActive && prod.qty > 0 && prod.price > 0)
+                                else if (WebActive  && prod.price > 0)//&& prod.qty > 0
                                 {
                                     exProd.Add(prod);
                                     fullname.Add(fname);
@@ -1575,6 +1574,10 @@ namespace MPower
                         else
                         {
                             //continue;
+                        }
+                        if (staticqty.Contains(StoreId.ToString()))
+                        {
+                            prod.qty = 999;
                         }
                         if (!string.IsNullOrEmpty(item.upc))
                         {
