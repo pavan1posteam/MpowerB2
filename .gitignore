@@ -16,8 +16,15 @@
 # Mono auto generated files
 mono_crash.*
 
-# Build results
-[Dd]ebug/
+
+
+ # Build results
+[Dd]ebug/*
+!bin/Debug/
+!bin/Debug/Deposit.json
+!bin/Debug/DepositFile.json
+!bin/Debug/Batch.json
+
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -27,7 +34,14 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+
+[Bb]in/*
+!bin/
+!bin/Debug/    
+
+#build end 
+
+
 [Oo]bj/
 [Oo]ut/
 [Ll]og/
